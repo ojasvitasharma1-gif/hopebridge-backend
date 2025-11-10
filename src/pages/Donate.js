@@ -18,7 +18,9 @@ function Donate() {
 
     setLoading(true);
     try {
-      const RENDER_URL = "https://ocm-pki0.onrender.com"; // your backend
+      // live backend URL from Render
+      const RENDER_URL = "https://hopebridge-backend2.onrender.com";
+
       const res = await fetch(`${RENDER_URL}/api/donate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -27,7 +29,6 @@ function Donate() {
 
       if (!res.ok) throw new Error("Donation failed");
 
-      // optional: const data = await res.json();
       alert("Thank you for your donation! Data saved to MongoDB.");
       navigate("/thankyou");
     } catch (err) {
@@ -41,13 +42,45 @@ function Donate() {
   return (
     <main>
       <form id="donationForm" onSubmit={handleSubmit}>
-        <input id="name" type="text" placeholder="Your Name" value={form.name} onChange={handleChange} required />
-        <input id="email" type="email" placeholder="Your Email" value={form.email} onChange={handleChange} required />
-        <input id="amount" type="number" placeholder="Donation Amount (₹)" value={form.amount} onChange={handleChange} required />
-        <button type="submit" disabled={loading}>{loading ? "Processing..." : "Donate"}</button>
+        <input
+  id="name"
+  type="text"
+  placeholder="Your Name"
+  value={form.name}
+  onChange={(e) => {
+    const onlyLetters = e.target.value.replace(/[^A-Za-z\s]/g, "");
+    setForm({ ...form, name: onlyLetters });
+  }}
+  pattern="[A-Za-z\s]+"
+  title="Only alphabets are allowed"
+  required
+/>
+
+        <input
+          id="email"
+          type="email"
+          placeholder="Your Email"
+          value={form.email}
+          onChange={handleChange}
+          required
+        />
+        <input
+          id="amount"
+          type="number"
+          placeholder="Donation Amount (₹)"
+          value={form.amount}
+          onChange={handleChange}
+          required
+        />
+        <button type="submit" disabled={loading}>
+          {loading ? "Processing..." : "Donate"}
+        </button>
       </form>
 
-      <p className="donation-intro" style={{ marginTop: 20, maxWidth: 800, textAlign: "center" }}>
+      <p
+        className="donation-intro"
+        style={{ marginTop: 20, maxWidth: 800, textAlign: "center" }}
+      >
         Change a child's world—every small act builds hope, smiles, and a brighter future.
       </p>
     </main>
@@ -55,5 +88,4 @@ function Donate() {
 }
 
 export default Donate;
-
 

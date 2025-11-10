@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";  // ⬅️ add this import
+import { Link } from "react-router-dom";  
 
 function Home() {
   return (
@@ -10,7 +10,7 @@ function Home() {
           <p>
             Join us in supporting education, nutrition and care for children in need.
           </p>
-          {/* ✅ fixed link below */}
+          
           <Link className="btn" to="/donate">Donate Now</Link>
         </div>
       </header>
